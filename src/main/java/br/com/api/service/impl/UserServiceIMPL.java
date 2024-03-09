@@ -37,9 +37,15 @@ public class UserServiceIMPL implements UserService {
         return  userRepository.save(mapper.map(obj, User.class));
     }
 
+    @Override
+    public User update(UserDTO obj) {
+        findByEmail(obj);
+        return  userRepository.save(mapper.map(obj, User.class));
+    }
+
     private void findByEmail(UserDTO obj) {
         Optional<User> user = userRepository.findByEmail(obj.getEmail());
-        if(user.isPresent()) {
+        if(user.isPresent() && !user.get().equals(obj.getId())) {
             throw new DataIntegratyViolationException("Email já cadastro no sistemas");
         }
     }
