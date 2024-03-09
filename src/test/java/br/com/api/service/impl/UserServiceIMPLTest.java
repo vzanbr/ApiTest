@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 
 class UserServiceIMPLTest {
 
@@ -45,7 +44,7 @@ class UserServiceIMPLTest {
 
     @Test
     void findById() {
-        Mockito.when(repository.findById(Mockito.anyInt())).thenReturn(optionalUser);
+        Mockito.when(repository.findById(anyInt())).thenReturn(optionalUser);
 
         User response = service.findById(user.getId());
 
@@ -57,7 +56,7 @@ class UserServiceIMPLTest {
     }
     @Test
     void whenFindByIdThenReturnAnyObjectNotFoundException() {
-        Mockito.when(repository.findById(Mockito.anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
+        Mockito.when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado"));
 
         try {
             service.findById(user.getId());
@@ -137,7 +136,16 @@ class UserServiceIMPLTest {
     }
 
     @Test
-    void delete() {
+    void deleteSucess() {
+        Mockito.when(repository.findById(anyInt())).thenReturn(optionalUser);
+        Mockito.doNothing().when(repository).deleteById(anyInt());
+        service.delete(user.getId());
+
+        Mockito.verify(repository, Mockito.times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteNotSucess() {
     }
 
     private void startUser() {
