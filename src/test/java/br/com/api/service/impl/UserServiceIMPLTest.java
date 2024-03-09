@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,6 +66,18 @@ class UserServiceIMPLTest {
 
     @Test
     void findAll() {
+        Mockito.when(repository.findAll()).thenReturn(List.of(user));
+
+        List<User> response = service.findAll();
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(User.class, response.get(0).getClass());
+
+        Assertions.assertEquals(user.getId(), response.get(0).getId());
+        Assertions.assertEquals(user.getName(), response.get(0).getName());
+        Assertions.assertEquals(user.getEmail(), response.get(0).getEmail());
+        Assertions.assertEquals(user.getPassword(), response.get(0).getPassword());
     }
 
     @Test
