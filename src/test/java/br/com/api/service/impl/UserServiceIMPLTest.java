@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 class UserServiceIMPLTest {
 
@@ -81,7 +82,17 @@ class UserServiceIMPLTest {
     }
 
     @Test
-    void create() {
+    void createSucess() {
+        Mockito.when(repository.save(any())).thenReturn(user);
+
+        User response = service.create(userDTO);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(User.class, response.getClass());
+        Assertions.assertEquals(user.getId(), response.getId());
+        Assertions.assertEquals(user.getName(), response.getName());
+        Assertions.assertEquals(user.getEmail(), response.getEmail());
+        Assertions.assertEquals(user.getPassword(), response.getPassword());
     }
 
     @Test
