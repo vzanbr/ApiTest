@@ -1,7 +1,8 @@
 package br.com.api.domain;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Data
